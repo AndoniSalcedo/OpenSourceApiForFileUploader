@@ -1,0 +1,14 @@
+/home/andoni/Universidad/Trabajo/SQL_DATA/src/main/java/es/uv/andoni/data/models/Producer.java
+/home/andoni/Universidad/Trabajo/SQL_DATA/src/main/java/es/uv/andoni/data/controllers/ProducerController.java
+/home/andoni/Universidad/Trabajo/SQL_DATA/src/main/java/es/uv/andoni/data/SQLDataApplication.java
+/home/andoni/Universidad/Trabajo/SQL_DATA/src/main/java/es/uv/andoni/data/models/Validator.java
+/home/andoni/Universidad/Trabajo/SQL_DATA/src/main/java/es/uv/andoni/data/models/File.java
+/home/andoni/Universidad/Trabajo/SQL_DATA/src/main/java/es/uv/andoni/data/repository/ProducerRepository.java
+/home/andoni/Universidad/Trabajo/SQL_DATA/src/main/java/es/uv/andoni/data/services/ProducerService.java
+/home/andoni/Universidad/Trabajo/SQL_DATA/src/main/java/es/uv/andoni/data/repository/UserRepository.java
+/home/andoni/Universidad/Trabajo/SQL_DATA/src/main/java/es/uv/andoni/data/repository/FileRepository.java
+/home/andoni/Universidad/Trabajo/SQL_DATA/src/main/java/es/uv/andoni/data/models/User.java
+/home/andoni/Universidad/Trabajo/SQL_DATA/src/main/java/es/uv/andoni/data/controllers/UserController.java
+/home/andoni/Universidad/Trabajo/SQL_DATA/src/main/java/es/uv/andoni/data/controllers/FileController.java
+/home/andoni/Universidad/Trabajo/SQL_DATA/src/main/java/es/uv/andoni/data/services/FileService.java
+/home/andoni/Universidad/Trabajo/SQL_DATA/src/main/java/es/uv/andoni/data/services/UserService.java

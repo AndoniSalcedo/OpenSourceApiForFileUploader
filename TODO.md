@@ -1,0 +1,4 @@
+-   Securizar API
+-   Desplegaren kubernetes
+-   Añadir queries de la parte sql
+-   Descargar fichero correctamente

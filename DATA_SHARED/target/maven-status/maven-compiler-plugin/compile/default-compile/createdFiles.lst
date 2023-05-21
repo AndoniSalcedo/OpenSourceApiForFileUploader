@@ -1,0 +1,11 @@
+es/uv/andoni/shared/domain/TokenDTO.class
+es/uv/andoni/shared/domain/NewProducerDTO.class
+es/uv/andoni/shared/domain/FileDTO$State.class
+es/uv/andoni/shared/domain/User.class
+es/uv/andoni/shared/domain/NewValidatorDTO.class
+es/uv/andoni/shared/domain/FileDTO.class
+es/uv/andoni/shared/domain/UserDTO.class
+es/uv/andoni/shared/domain/NewFileDTO.class
+es/uv/andoni/shared/domain/ProducerDTO.class
+es/uv/andoni/shared/domain/ValidatorDTO.class
+es/uv/andoni/shared/domain/AuthenticationRequest.class

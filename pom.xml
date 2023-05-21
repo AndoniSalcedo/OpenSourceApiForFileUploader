@@ -1,0 +1,28 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>es.uv.andoni</groupId>
+  <artifactId>TRABAJO</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>TRABAJO</name>
+  <description>TRABAJO FINAL MASTER</description>
+  <modules>
+    <module>CONFIG_SERVER</module>
+    <module>CONSUMER_API</module>
+    <module>DATA_SHARED</module>
+    <module>MONGO_DATA</module>
+    <module>PRODUCER_API</module>
+    <module>SQL_DATA</module>
+    <module>VALIDATOR_API</module>
+    <module>PROCESS_SERVICE</module>
+    <module>WORKER</module>
+    <module>AUTH_SERVICE</module>
+    <module>GATEAWAY</module>
+
+  </modules>
+  <properties>
+    <java.version>17</java.version>
+  </properties>
+</project>
