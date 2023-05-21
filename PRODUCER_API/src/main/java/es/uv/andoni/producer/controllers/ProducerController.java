@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,9 +54,16 @@ public class ProducerController {
   )
   public ResponseEntity<?> updateProducer(
     @PathVariable Long producerId,
+    @RequestHeader("x-auth-user-id") Long userId,
     @RequestBody ProducerDTO producerDTO
   ) {
     log.info("Updating Producer: " + producerDTO.toString());
+
+    if (userId != producerId) {
+      return ResponseEntity
+        .status(HttpStatus.FORBIDDEN)
+        .body("Usuario no autorizado");
+    }
 
     ProducerDTO producer = producerService.getProducer(producerId).getBody();
     if (producer == null) {
@@ -92,8 +100,18 @@ public class ProducerController {
     summary = "Get Files",
     description = " Consultar el listado de ficheros de datos del productor. Requerirá autenticación y que su estado sea activo."
   )
-  public ResponseEntity<?> getFiles(@PathVariable Long producerId) {
+  public ResponseEntity<?> getFiles(
+    @PathVariable Long producerId,
+    @RequestHeader("x-auth-user-id") Long userId
+  ) {
     log.info("Getting Files for Producer: " + producerId);
+
+    if (userId != producerId) {
+      return ResponseEntity
+        .status(HttpStatus.FORBIDDEN)
+        .body("Usuario no autorizado");
+    }
+
     return producerService.getFiles(producerId);
   }
 
@@ -104,12 +122,19 @@ public class ProducerController {
   )
   public ResponseEntity<?> uploadFile(
     @PathVariable Long producerId,
+    @RequestHeader("x-auth-user-id") Long userId,
     @RequestParam String title,
     @RequestParam String description,
     @RequestParam List<String> keyWords,
     @RequestParam Integer size,
     @RequestParam MultipartFile fileData
   ) {
+    log.info("Uploading file " + title);
+    if (userId != producerId) {
+      return ResponseEntity
+        .status(HttpStatus.FORBIDDEN)
+        .body("Usuario no autorizado");
+    }
     ProducerDTO producer = producerService.getProducer(producerId).getBody();
     if (producer == null) {
       return ResponseEntity.notFound().build();
@@ -155,10 +180,17 @@ public class ProducerController {
   )
   public ResponseEntity<?> updateFile(
     @PathVariable Long producerId,
+    @RequestHeader("x-auth-user-id") Long userId,
     @PathVariable Long fileId,
     @RequestBody NewFileDTO fileDTO
   ) {
     log.info("Updating File: " + fileDTO.toString());
+
+    if (userId != producerId) {
+      return ResponseEntity
+        .status(HttpStatus.FORBIDDEN)
+        .body("Usuario no autorizado");
+    }
 
     FileDTO file = producerService.getFile(producerId, fileId).getBody();
 
@@ -190,8 +222,15 @@ public class ProducerController {
   )
   public ResponseEntity<?> deleteFile(
     @PathVariable Long producerId,
+    @RequestHeader("x-auth-user-id") Long userId,
     @PathVariable Long fileId
   ) {
+    log.info("Deleting file  " + fileId);
+    if (userId != producerId) {
+      return ResponseEntity
+        .status(HttpStatus.FORBIDDEN)
+        .body("Usuario no autorizado");
+    }
     FileDTO file = producerService.getFile(producerId, fileId).getBody();
 
     if (file == null) {
