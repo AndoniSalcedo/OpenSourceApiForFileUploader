@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: validator-api-deployment
+  labels:
+    app: validator-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: validator-api
+  template:
+    metadata:
+      labels:
+        app: validator-api
+    spec:
+      containers:
+      - name: watcher
+        image: andonisalcedo/validator-api:1.0
+        ports:
+        - containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: validator-api-service
+spec:
+  selector:
+    app: validator-api
+  ports:
+  - port: 8080

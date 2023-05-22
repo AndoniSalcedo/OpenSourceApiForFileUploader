@@ -1,3 +1,5 @@
 #!/bin/bash
 
-mvn clean package docker:build docker:push clean
+mvn clean package docker:build
+
+bash publish.sh

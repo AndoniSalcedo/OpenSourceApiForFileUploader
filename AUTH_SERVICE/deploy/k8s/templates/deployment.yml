@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {ARTIFACT}-deployment
+  labels:
+    app: {ARTIFACT}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {ARTIFACT}
+  template:
+    metadata:
+      labels:
+        app: {ARTIFACT}
+    spec:
+      containers:
+      - name: watcher
+        image: andonisalcedo/{ARTIFACT}:{VERSION}
+        ports:
+        - containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: {ARTIFACT}-service
+spec:
+  selector:
+    app: {ARTIFACT}
+  ports:
+  - port: 8080

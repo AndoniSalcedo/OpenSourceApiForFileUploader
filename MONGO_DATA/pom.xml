@@ -10,10 +10,10 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>es.uv.andoni</groupId>
-	<artifactId>MONGO_DATA</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>MONGO_DATA</name>
-	<description>MONGO_DATA</description>
+	<artifactId>mongo-data</artifactId>
+	<version>1.0</version>
+	<name>mongo-data</name>
+	<description>mongo-data</description>
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2022.0.2</spring-cloud.version>
@@ -62,27 +62,75 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>1.2.2</version>
-				<configuration>
-					<imageName>andonisalcedo/${project.artifactId}:${project.version}</imageName>
-					<dockerDirectory>${project.basedir}/deploy/docker</dockerDirectory>
-					<resources>
-						<resource>
-							<targetPath>/</targetPath>
-							<directory>${project.build.directory}</directory>
-							<include>${project.build.finalName}.jar</include>
-						</resource>
-						<resource>
-							<targetPath>/libs</targetPath>
-							<directory>${project.build.directory}/libs</directory>
-							<include>*.jar</include>
-						</resource>
-					</resources>
-				</configuration>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>prepare-package</phase>
+						<configuration>
+							<target>
+								<copy todir="deploy/k8s" overwrite="true">
+									<fileset dir="deploy/k8s/templates" />
+								</copy>
+								<copy todir="." overwrite="true">
+									<fileset dir="scripts" />
+								</copy>
+								<replace dir="deploy" token="{VERSION}" value="${project.version}">
+									<include name="**/*.yml" />
+									<exclude name="**/templates/*.*" />
+								</replace>
+								<replace dir="deploy" token="{ARTIFACT}"
+									value="${project.artifactId}">
+									<include name="**/*.yml" />
+									<exclude name="**/templates/*.*" />
+								</replace>
+								<replace dir="." token="{VERSION}" value="${project.version}">
+									<include name="**/*.sh" />
+									<exclude name="**/scripts/*.*" />
+								</replace>
+								<replace dir="." token="{ARTIFACT}"
+									value="${project.artifactId}">
+									<include name="**/*.sh" />
+									<exclude name="**/scripts/*.*" />
+								</replace>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>maven-local</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.spotify</groupId>
+						<artifactId>docker-maven-plugin</artifactId>
+						<version>1.2.2</version>
+						<configuration>
+							<imageName>
+								andonisalcedo/${project.artifactId}:${project.version}</imageName>
+							<dockerDirectory>${project.basedir}/deploy/docker/</dockerDirectory>
+							<resources>
+								<resource>
+									<targetPath>/</targetPath>
+									<directory>${project.build.directory}</directory>
+									<include>${project.build.finalName}.jar</include>
+								</resource>
+							</resources>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>

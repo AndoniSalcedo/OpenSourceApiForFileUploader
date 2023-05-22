@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: producer-api-deployment
+  labels:
+    app: producer-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: producer-api
+  template:
+    metadata:
+      labels:
+        app: producer-api
+    spec:
+      containers:
+      - name: watcher
+        image: andonisalcedo/producer-api:1.0
+        ports:
+        - containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: producer-api-service
+spec:
+  selector:
+    app: producer-api
+  ports:
+  - port: 8080

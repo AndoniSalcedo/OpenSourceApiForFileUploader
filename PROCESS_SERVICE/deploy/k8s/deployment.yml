@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: process-service-deployment
+  labels:
+    app: process-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: process-service
+  template:
+    metadata:
+      labels:
+        app: process-service
+    spec:
+      containers:
+      - name: watcher
+        image: andonisalcedo/process-service:1.0
+        ports:
+        - containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: process-service-service
+spec:
+  selector:
+    app: process-service
+  ports:
+  - port: 8080

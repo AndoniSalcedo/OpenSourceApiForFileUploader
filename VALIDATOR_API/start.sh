@@ -1,3 +1,3 @@
 cd deploy/k8s/
-./start.sh
+bash start.sh
 cd ../../

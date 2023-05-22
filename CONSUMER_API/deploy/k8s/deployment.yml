@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer-api-deployment
+  labels:
+    app: consumer-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consumer-api
+  template:
+    metadata:
+      labels:
+        app: consumer-api
+    spec:
+      containers:
+      - name: watcher
+        image: andonisalcedo/consumer-api:1.0
+        ports:
+        - containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: consumer-api-service
+spec:
+  selector:
+    app: consumer-api
+  ports:
+  - port: 8080

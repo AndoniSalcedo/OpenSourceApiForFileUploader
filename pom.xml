@@ -19,7 +19,7 @@
     <module>PROCESS_SERVICE</module>
     <module>WORKER</module>
     <module>AUTH_SERVICE</module>
-    <module>GATEAWAY</module>
+    <module>GATEWAY</module>
 
   </modules>
   <properties>
