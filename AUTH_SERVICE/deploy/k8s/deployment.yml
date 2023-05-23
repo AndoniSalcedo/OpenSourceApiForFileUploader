@@ -1,31 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: AUTH_SERVICE-deployment
+  name: auth-service-deployment
   labels:
-    app: AUTH_SERVICE
+    app: auth-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: AUTH_SERVICE
+      app: auth-service
   template:
     metadata:
       labels:
-        app: AUTH_SERVICE
+        app: auth-service
     spec:
       containers:
       - name: watcher
-        image: andonisalcedo/AUTH_SERVICE:0.0.1-SNAPSHOT
+        image: andonisalcedo/auth-service:1.0
         ports:
         - containerPort: 8080
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: AUTH_SERVICE-service
+  name: auth-service-service
 spec:
   selector:
-    app: AUTH_SERVICE
+    app: auth-service
   ports:
   - port: 8080

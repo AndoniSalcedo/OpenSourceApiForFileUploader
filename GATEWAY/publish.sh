@@ -1,9 +1,9 @@
 #!/bin/bash
 
-minikube image rm andonisalcedo/gateway:0.0.1-SNAPSHOT 2> /dev/null
+minikube image rm andonisalcedo/gateway:1.0 2> /dev/null
 
-echo "Uploading image gateway:0.0.1-SNAPSHOT to minikube"
+echo "Uploading image gateway:1.0 to minikube"
 
-minikube image load andonisalcedo/gateway:0.0.1-SNAPSHOT
+minikube image load andonisalcedo/gateway:1.0
 
 minikube cache reload

@@ -10,10 +10,10 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>es.uv.andoni</groupId>
-	<artifactId>AUTH_SERVICE</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>AUTH_SERVICE</name>
-	<description>AUTH_SERVICE</description>
+	<artifactId>auth-service</artifactId>
+	<version>1.0</version>
+	<name>auth-service</name>
+	<description>auth-service</description>
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2022.0.2</spring-cloud.version>

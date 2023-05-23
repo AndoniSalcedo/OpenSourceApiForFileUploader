@@ -6,4 +6,4 @@ COPY *.jar /src/app.jar
 
 WORKDIR /src
 
-CMD ["java","-jar","app.jar"]
+CMD ["java","-jar","app.jar", "--spring.profiles.active=deployment"]

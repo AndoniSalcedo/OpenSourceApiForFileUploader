@@ -21,6 +21,8 @@ public class SecurityConfig {
       .httpBasic()
       .and()
       .authorizeHttpRequests()
+      .requestMatchers("/actuator/health")
+      .permitAll()
       .requestMatchers("/**")
       .authenticated();
 

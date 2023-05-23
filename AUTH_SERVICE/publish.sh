@@ -1,9 +1,9 @@
 #!/bin/bash
 
-minikube image rm andonisalcedo/AUTH_SERVICE:0.0.1-SNAPSHOT 2> /dev/null
+minikube image rm andonisalcedo/auth-service:1.0 2> /dev/null
 
-echo "Uploading image AUTH_SERVICE:0.0.1-SNAPSHOT to minikube"
+echo "Uploading image auth-service:1.0 to minikube"
 
-minikube image load andonisalcedo/AUTH_SERVICE:0.0.1-SNAPSHOT
+minikube image load andonisalcedo/auth-service:1.0
 
 minikube cache reload

@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>es.uv.andoni</groupId>
 	<artifactId>gateway</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>gateway</name>
 	<description>gateway</description>
 	<properties>
