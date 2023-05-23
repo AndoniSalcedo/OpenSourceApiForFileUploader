@@ -15,7 +15,7 @@ spec:
         app: process-service
     spec:
       containers:
-      - name: process
+      - name: process-service
         image: andonisalcedo/process-service:1.0
         ports:
         - containerPort: 8080

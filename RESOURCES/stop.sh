@@ -1,3 +1,3 @@
 cd deploy/k8s
-kubectl delete -f . --force
+kubectl bash stop.sh
 cd ../../

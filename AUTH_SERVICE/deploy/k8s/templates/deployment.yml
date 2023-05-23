@@ -14,12 +14,25 @@ spec:
       labels:
         app: {ARTIFACT}
     spec:
+      initContainers:
+        - name: health-check
+          image: curlimages/curl
+          command: ["sh", "-c", "until curl -s -o /dev/null -w '%{http_code}' ${SPRING_CLOUD_CONFIG_URI}/actuator/health | grep -q 200; do sleep 1; done"]
+          env:
+          - name: SPRING_CLOUD_CONFIG_URI
+            valueFrom:
+              configMapKeyRef:
+                name: config-server-url
+                key: SPRING_CLOUD_CONFIG_URI
       containers:
-      - name: watcher
+      - name: {ARTIFACT}
         image: andonisalcedo/{ARTIFACT}:{VERSION}
+        envFrom:
+        - configMapRef:
+            name: config-server-url
         ports:
-        - containerPort: 8080
----
+          - containerPort: 8080
+---      
 kind: Service
 apiVersion: v1
 metadata:

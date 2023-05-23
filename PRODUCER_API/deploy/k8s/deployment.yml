@@ -15,10 +15,14 @@ spec:
         app: producer-api
     spec:
       containers:
-      - name: watcher
+      - name: producer-api
         image: andonisalcedo/producer-api:1.0
         ports:
         - containerPort: 8080
+      initContainers:
+          - name: health-check
+            image: curlimages/curl
+            command: ["sh", "-c", "until curl -s -o /dev/null -w '%{http_code}' http://config-server-service.default.svc.cluster.local:8080/actuator/health | grep -q 200; do sleep 1; done"]
 ---
 kind: Service
 apiVersion: v1
