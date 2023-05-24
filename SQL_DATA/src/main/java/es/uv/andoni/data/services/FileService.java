@@ -85,25 +85,4 @@ public class FileService {
   public void deleteFile(Long fileId) {
     fileRepository.deleteById(fileId);
   }
-  //////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////
-
-  /*   public List<File> findByTitleContaining(String title) {
-    return fileRepository.findByTitleContaining(title);
-  }
-
-  public List<File> findByKeyWordsIn(List<String> keyWords) {
-    return fileRepository.findByKeyWordsIn(keyWords);
-  }
-
-  public List<File> findTop10OrderBynumViewsDescnumDownloadsDesc() {
-    return fileRepository.findTop10OrderBynumViewsDescnumDownloadsDesc();
-  }
-
-  public List<File> findFilesOfProductor(Long productorId) {
-    return fileRepository.findFilesOfProductor(productorId);
-  } */
 }

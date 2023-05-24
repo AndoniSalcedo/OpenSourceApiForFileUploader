@@ -34,52 +34,72 @@ public class ProducerServiceImpl implements ProducerService {
   // PRODUCER
   @Override
   public ResponseEntity<ProducerDTO> getProducer(Long producerId) {
-    String url = DATA_SERVICE_URL + "/producers/" + producerId;
-    return restTemplate.getForEntity(url, ProducerDTO.class);
+    try {
+      String url = DATA_SERVICE_URL + "/producers/" + producerId;
+      return restTemplate.getForEntity(url, ProducerDTO.class);
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 
   @Override
   public ResponseEntity<ProducerDTO> saveProducer(ProducerDTO producerDTO) {
-    String url = DATA_SERVICE_URL + "/producers";
-    return restTemplate.postForEntity(url, producerDTO, ProducerDTO.class);
+    try {
+      String url = DATA_SERVICE_URL + "/producers";
+      return restTemplate.postForEntity(url, producerDTO, ProducerDTO.class);
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 
   // FILES
 
   @Override
   public ResponseEntity<List<FileDTO>> getFiles(Long producerId) {
-    UriComponentsBuilder url = UriComponentsBuilder
-      .fromHttpUrl(DATA_SERVICE_URL + "/files")
-      .queryParam("producerId", producerId);
+    try {
+      UriComponentsBuilder url = UriComponentsBuilder
+        .fromHttpUrl(DATA_SERVICE_URL + "/files")
+        .queryParam("producerId", producerId);
 
-    return restTemplate.exchange(
-      url.toUriString(),
-      HttpMethod.GET,
-      null,
-      new ParameterizedTypeReference<List<FileDTO>>() {}
-    );
+      return restTemplate.exchange(
+        url.toUriString(),
+        HttpMethod.GET,
+        null,
+        new ParameterizedTypeReference<List<FileDTO>>() {}
+      );
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 
   @Override
   public ResponseEntity<FileDTO> getFile(Long producerId, Long fileId) {
-    UriComponentsBuilder url = UriComponentsBuilder
-      .fromHttpUrl(DATA_SERVICE_URL + "/files")
-      .queryParam("producerId", producerId)
-      .queryParam("fileId", fileId);
+    try {
+      UriComponentsBuilder url = UriComponentsBuilder
+        .fromHttpUrl(DATA_SERVICE_URL + "/files")
+        .queryParam("producerId", producerId)
+        .queryParam("fileId", fileId);
 
-    return restTemplate.getForEntity(url.toUriString(), FileDTO.class);
+      return restTemplate.getForEntity(url.toUriString(), FileDTO.class);
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 
   @Override
   public ResponseEntity<FileDTO> saveFile(FileDTO fileDTO) {
-    String url = DATA_SERVICE_URL + "/files";
-    ResponseEntity<FileDTO> responseEntity = restTemplate.postForEntity(
-      url,
-      fileDTO,
-      FileDTO.class
-    );
+    try {
+      String url = DATA_SERVICE_URL + "/files";
+      ResponseEntity<FileDTO> responseEntity = restTemplate.postForEntity(
+        url,
+        fileDTO,
+        FileDTO.class
+      );
 
-    return responseEntity;
+      return responseEntity;
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 
   @Override
@@ -107,21 +127,29 @@ public class ProducerServiceImpl implements ProducerService {
 
       return restTemplate.postForEntity(url, requestEntity, Void.class);
     } catch (Exception e) {
-      throw new RuntimeException(e);
+      return ResponseEntity.badRequest().build();
     }
   }
 
   @Override
   public ResponseEntity<Void> deleteFile(Long fileId) {
-    String url = DATA_SERVICE_URL + "/files/" + fileId;
-    restTemplate.delete(url);
-    return ResponseEntity.ok().build();
+    try {
+      String url = DATA_SERVICE_URL + "/files/" + fileId;
+      restTemplate.delete(url);
+      return ResponseEntity.ok().build();
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 
   @Override
   public ResponseEntity<Void> deleteDataFile(Long fileId) {
-    String url = MONGO_SERVICE_URL + "/files/" + fileId;
-    restTemplate.delete(url);
-    return ResponseEntity.ok().build();
+    try {
+      String url = MONGO_SERVICE_URL + "/files/" + fileId;
+      restTemplate.delete(url);
+      return ResponseEntity.ok().build();
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 }

@@ -16,16 +16,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 public class UserController {
 
-  Logger log = LoggerFactory.getLogger(ProducerController.class);
+  Logger log = LoggerFactory.getLogger(UserController.class);
 
   @Autowired
   private UserService userService;
 
   @GetMapping("/{email}")
-  public ResponseEntity<?> getProducerById(@PathVariable String email) {
-    log.info("Getting producer with id: " + email);
-    UserDTO user = userService.getUserWithRoleByEmail(email);
+  public ResponseEntity<?> getByEmail(@PathVariable String email) {
+    try {
+      log.info("Getting user with id: " + email);
+      UserDTO user = userService.getUserWithRoleByEmail(email);
 
-    return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
+      return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
   }
 }

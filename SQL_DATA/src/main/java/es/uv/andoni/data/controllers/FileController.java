@@ -36,98 +36,103 @@ public class FileController {
     @RequestParam(required = false) String orderBy,
     @RequestParam(required = false) String producerName
   ) {
-    log.info("Getting file");
-    log.info(
-      "fileId: " +
-      fileId +
-      " producerId: " +
-      producerId +
-      " keyword: " +
-      keyword +
-      " orderBy: " +
-      orderBy +
-      " producerName: " +
-      producerName
-    );
+    try {
+      log.info("Getting file");
+      log.info(
+        "fileId: " +
+        fileId +
+        " producerId: " +
+        producerId +
+        " keyword: " +
+        keyword +
+        " orderBy: " +
+        orderBy +
+        " producerName: " +
+        producerName
+      );
 
-    if (fileId != null) {
-      if (producerId != null) {
-        File files = fileService.getFile(producerId, fileId);
+      if (fileId != null) {
+        if (producerId != null) {
+          File files = fileService.getFile(producerId, fileId);
+          return new ResponseEntity<File>(files, HttpStatus.OK);
+        }
+        File files = fileService.getFile(fileId);
         return new ResponseEntity<File>(files, HttpStatus.OK);
       }
-      File files = fileService.getFile(fileId);
-      return new ResponseEntity<File>(files, HttpStatus.OK);
-    }
 
-    if (producerId != null) {
-      List<File> files = fileService.getFiles(producerId);
-      return new ResponseEntity<List<File>>(files, HttpStatus.OK);
-    }
+      if (producerId != null) {
+        List<File> files = fileService.getFiles(producerId);
+        return new ResponseEntity<List<File>>(files, HttpStatus.OK);
+      }
 
-    if (keyword != null && orderBy != null) {
-      List<File> files = fileService.getFiles(keyword, orderBy);
-      return new ResponseEntity<List<File>>(files, HttpStatus.OK);
-    }
+      if (keyword != null && orderBy != null) {
+        List<File> files = fileService.getFiles(keyword, orderBy);
+        return new ResponseEntity<List<File>>(files, HttpStatus.OK);
+      }
 
-    if (producerName != null) {
-      List<File> files = fileService.getFiles(producerName);
+      if (producerName != null) {
+        List<File> files = fileService.getFiles(producerName);
+        return new ResponseEntity<List<File>>(files, HttpStatus.OK);
+      }
+      List<File> files = fileService.getAllFiles();
       return new ResponseEntity<List<File>>(files, HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-    List<File> files = fileService.getAllFiles();
-    return new ResponseEntity<List<File>>(files, HttpStatus.OK);
   }
 
   @GetMapping("/pending")
   public ResponseEntity<?> getFilesPending() {
     log.info("Getting files pending");
 
-    List<File> files = fileService.getFilesPending();
-    return new ResponseEntity<List<File>>(files, HttpStatus.OK);
+    try {
+      List<File> files = fileService.getFilesPending();
+      return new ResponseEntity<List<File>>(files, HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
   }
 
   @PostMapping
   public ResponseEntity<?> saveFile(@RequestBody FileDTO file) {
-    log.info("Saving file");
-    log.info("file: " + file);
-    File newFile = fileService.saveFile(file);
-    return new ResponseEntity<File>(newFile, HttpStatus.CREATED);
+    try {
+      log.info("Saving file");
+      log.info("file: " + file);
+      File newFile = fileService.saveFile(file);
+      return new ResponseEntity<File>(newFile, HttpStatus.CREATED);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
   }
 
   @PutMapping("preview/{fileId}")
   public ResponseEntity<?> previewFileFile(@PathVariable Long fileId) {
-    fileService.incrementViews(fileId);
-    return ResponseEntity.ok().build();
+    try {
+      fileService.incrementViews(fileId);
+      return ResponseEntity.ok().build();
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
   }
 
   @PutMapping("download/{fileId}")
   public ResponseEntity<?> downloadFileFile(@PathVariable Long fileId) {
-    fileService.incrementDownloads(fileId);
-    return ResponseEntity.ok().build();
+    try {
+      fileService.incrementDownloads(fileId);
+      return ResponseEntity.ok().build();
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
   }
 
   @DeleteMapping("/{fileId}")
   public ResponseEntity<?> deleteFile(@PathVariable Long fileId) {
-    log.info("Deleting file with id " + fileId);
-    fileService.deleteFile(fileId);
-    return ResponseEntity.ok().build();
+    try {
+      log.info("Deleting file with id " + fileId);
+      fileService.deleteFile(fileId);
+      return ResponseEntity.ok().build();
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
   }
-  /*   @GetMapping("/findByTitleContaining/{title}")
-  public List<File> findByTitleContaining(@PathVariable String title) {
-    return fileService.findByTitleContaining(title);
-  }
-
-  @GetMapping("/findByKeyWordsIn")
-  public List<File> findByKeyWordsIn(@RequestParam List<String> keyWords) {
-    return fileService.findByKeyWordsIn(keyWords);
-  }
-
-  @GetMapping("/findTop10OrderBynumViewsDescnumDownloadsDesc")
-  public List<File> findTop10OrderBynumViewsDescnumDownloadsDesc() {
-    return fileService.findTop10OrderBynumViewsDescnumDownloadsDesc();
-  }
-
-  @GetMapping("/findFilesOfProductor/{productorId}")
-  public List<File> findFilesOfProductor(@PathVariable Long productorId) {
-    return fileService.findFilesOfProductor(productorId);
-  } */
 }

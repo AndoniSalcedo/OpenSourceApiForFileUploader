@@ -28,64 +28,88 @@ public class ConsumerServiceImpl implements ConsumerService {
     String keyword,
     String orderBy
   ) {
-    UriComponentsBuilder url = UriComponentsBuilder
-      .fromHttpUrl(DATA_SERVICE_URL + "/files")
-      .queryParam("keyword", keyword)
-      .queryParam("orderBy", orderBy);
-    return restTemplate.exchange(
-      url.toUriString(),
-      HttpMethod.GET,
-      null,
-      new ParameterizedTypeReference<List<FileDTO>>() {}
-    );
+    try {
+      UriComponentsBuilder url = UriComponentsBuilder
+        .fromHttpUrl(DATA_SERVICE_URL + "/files")
+        .queryParam("keyword", keyword)
+        .queryParam("orderBy", orderBy);
+      return restTemplate.exchange(
+        url.toUriString(),
+        HttpMethod.GET,
+        null,
+        new ParameterizedTypeReference<List<FileDTO>>() {}
+      );
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 
   @Override
   public ResponseEntity<List<FileDTO>> getFilesByProducerName(
     String producerName
   ) {
-    UriComponentsBuilder url = UriComponentsBuilder
-      .fromHttpUrl(DATA_SERVICE_URL + "/files")
-      .queryParam("producerName", producerName);
-    return restTemplate.exchange(
-      url.toUriString(),
-      HttpMethod.GET,
-      null,
-      new ParameterizedTypeReference<List<FileDTO>>() {}
-    );
+    try {
+      UriComponentsBuilder url = UriComponentsBuilder
+        .fromHttpUrl(DATA_SERVICE_URL + "/files")
+        .queryParam("producerName", producerName);
+      return restTemplate.exchange(
+        url.toUriString(),
+        HttpMethod.GET,
+        null,
+        new ParameterizedTypeReference<List<FileDTO>>() {}
+      );
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 
   @Override
   public ResponseEntity<FileDTO> addPreviewFile(Long fileId) {
-    String url = DATA_SERVICE_URL + "/files" + "/preview/" + fileId;
-    return restTemplate.exchange(url, HttpMethod.PUT, null, FileDTO.class);
+    try {
+      String url = DATA_SERVICE_URL + "/files" + "/preview/" + fileId;
+      return restTemplate.exchange(url, HttpMethod.PUT, null, FileDTO.class);
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 
   @Override
   public ResponseEntity<List<Object>> previewFile(Long fileId) {
-    String url = MONGO_SERVICE_URL + "/files" + "/preview/" + fileId;
-    return restTemplate.exchange(
-      url,
-      HttpMethod.GET,
-      null,
-      new ParameterizedTypeReference<List<Object>>() {}
-    );
+    try {
+      String url = MONGO_SERVICE_URL + "/files" + "/preview/" + fileId;
+      return restTemplate.exchange(
+        url,
+        HttpMethod.GET,
+        null,
+        new ParameterizedTypeReference<List<Object>>() {}
+      );
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 
   @Override
   public ResponseEntity<FileDTO> addDownloadFile(Long fileId) {
-    String url = DATA_SERVICE_URL + "/files" + "/download/" + fileId;
-    return restTemplate.exchange(url, HttpMethod.PUT, null, FileDTO.class);
+    try {
+      String url = DATA_SERVICE_URL + "/files" + "/download/" + fileId;
+      return restTemplate.exchange(url, HttpMethod.PUT, null, FileDTO.class);
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 
   @Override
   public ResponseEntity<List<Object>> downloadFile(Long fileId) {
-    String url = MONGO_SERVICE_URL + "/files" + "/download/" + fileId;
-    return restTemplate.exchange(
-      url,
-      HttpMethod.GET,
-      null,
-      new ParameterizedTypeReference<List<Object>>() {}
-    );
+    try {
+      String url = MONGO_SERVICE_URL + "/files" + "/download/" + fileId;
+      return restTemplate.exchange(
+        url,
+        HttpMethod.GET,
+        null,
+        new ParameterizedTypeReference<List<Object>>() {}
+      );
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().build();
+    }
   }
 }

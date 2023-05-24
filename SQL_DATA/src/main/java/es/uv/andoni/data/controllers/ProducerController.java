@@ -31,30 +31,46 @@ public class ProducerController {
   public ResponseEntity<?> getProducers(
     @RequestParam(required = false) String filter
   ) {
-    log.info("Getting all producers");
-    List<Producer> producers = producerService.getProducers(filter);
-    return new ResponseEntity<List<Producer>>(producers, HttpStatus.OK);
+    try {
+      log.info("Getting all producers");
+      List<Producer> producers = producerService.getProducers(filter);
+      return new ResponseEntity<List<Producer>>(producers, HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
   }
 
   @GetMapping("/{producerId}")
   public ResponseEntity<?> getProducerById(@PathVariable Long producerId) {
-    log.info("Getting producer with id: " + producerId);
-    Producer producer = producerService.getProducerById(producerId);
-    return new ResponseEntity<Producer>(producer, HttpStatus.OK);
+    try {
+      log.info("Getting producer with id: " + producerId);
+      Producer producer = producerService.getProducerById(producerId);
+      return new ResponseEntity<Producer>(producer, HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
   }
 
   @PostMapping
   public ResponseEntity<?> saveProducer(@RequestBody ProducerDTO producer) {
-    log.info("Saving producer: " + producer.toString());
+    try {
+      log.info("Saving producer: " + producer.toString());
 
-    Producer newProducer = producerService.saveProducer(producer);
-    return new ResponseEntity<Producer>(newProducer, HttpStatus.CREATED);
+      Producer newProducer = producerService.saveProducer(producer);
+      return new ResponseEntity<Producer>(newProducer, HttpStatus.CREATED);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
   }
 
   @DeleteMapping("/{producerId}")
   public ResponseEntity<?> deleteProducer(@PathVariable Long producerId) {
-    log.info("Deleting producer with id: " + producerId);
-    producerService.deleteProducer(producerId);
-    return new ResponseEntity<>(HttpStatus.OK);
+    try {
+      log.info("Deleting producer with id: " + producerId);
+      producerService.deleteProducer(producerId);
+      return new ResponseEntity<>(HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
   }
 }

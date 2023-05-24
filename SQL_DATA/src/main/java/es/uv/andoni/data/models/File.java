@@ -1,6 +1,7 @@
 package es.uv.andoni.data.models;
 
 import es.uv.andoni.shared.domain.FileDTO;
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.Date;
 import java.util.List;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "files")
@@ -20,6 +22,8 @@ public class File {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @CreationTimestamp
+  @Column(updatable = false)
   private Date creationDate;
 
   private String title;
