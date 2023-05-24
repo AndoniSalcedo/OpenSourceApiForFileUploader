@@ -14,16 +14,25 @@ spec:
       labels:
         app: validator-api
     spec:
+      initContainers:
+        - name: health-check
+          image: curlimages/curl
+          command: ["sh", "-c", "until curl -s -o /dev/null -w '%{http_code}' ${SPRING_CLOUD_CONFIG_URI}/actuator/health | grep -q 200; do sleep 1; done"]
+          env:
+          - name: SPRING_CLOUD_CONFIG_URI
+            valueFrom:
+              configMapKeyRef:
+                name: config-server-url
+                key: SPRING_CLOUD_CONFIG_URI
       containers:
       - name: validator-api
         image: andonisalcedo/validator-api:1.0
+        envFrom:
+        - configMapRef:
+            name: config-server-url
         ports:
-        - containerPort: 8080
-      initContainers:
-          - name: health-check
-            image: curlimages/curl
-            command: ["sh", "-c", "until curl -s -o /dev/null -w '%{http_code}' http://config-server-service.default.svc.cluster.local:8080/actuator/health | grep -q 200; do sleep 1; done"]
----
+          - containerPort: 8080
+---      
 kind: Service
 apiVersion: v1
 metadata:
