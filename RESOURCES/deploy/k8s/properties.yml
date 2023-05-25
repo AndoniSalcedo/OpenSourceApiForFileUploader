@@ -85,3 +85,6 @@ data:
     rabbitmq.queue.worker: q.worker
     rabbitmq.exchange.name: default
     url.process.service: http://process-service-service.default.svc.cluster.local:8080
+  data-integrity-deployment.properties: |
+    url.data.service: http://sql-data-service.default.svc.cluster.local:8080
+    url.mongo.service: http://mongo-data-service.default.svc.cluster.local:8080

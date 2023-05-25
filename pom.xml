@@ -20,6 +20,7 @@
     <module>WORKER</module>
     <module>AUTH_SERVICE</module>
     <module>GATEWAY</module>
+    <module>DATA_INTEGRITY</module>
 
   </modules>
   <properties>

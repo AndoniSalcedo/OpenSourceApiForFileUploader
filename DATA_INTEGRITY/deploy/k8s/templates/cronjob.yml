@@ -1,0 +1,30 @@
+apiVersion: apps/v1beta1
+kind: CronJob
+metadata:
+  name: {ARTIFACT}-cronjob
+  labels:
+    app: {ARTIFACT}
+spec:
+  schedule: "0 */12 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+      initContainers:
+        - name: health-check
+          image: curlimages/curl
+          command: ["sh", "-c", "until curl -s -o /dev/null -w '%{http_code}' ${SPRING_CLOUD_CONFIG_URI}/actuator/health | grep -q 200; do sleep 1; done"]
+          env:
+          - name: SPRING_CLOUD_CONFIG_URI
+            valueFrom:
+              configMapKeyRef:
+                name: config-server-url
+                key: SPRING_CLOUD_CONFIG_URI
+      containers:
+      - name: {ARTIFACT}
+        image: andonisalcedo/{ARTIFACT}:{VERSION}
+        envFrom:
+        - configMapRef:
+            name: config-server-url
+        ports:
+          - containerPort: 8080

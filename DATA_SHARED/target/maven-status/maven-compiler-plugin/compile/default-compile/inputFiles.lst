@@ -1,8 +1,6 @@
 /home/andoni/Universidad/Trabajo/DATA_SHARED/src/main/java/es/uv/andoni/shared/domain/TokenDTO.java
-/home/andoni/Universidad/Trabajo/DATA_SHARED/src/main/java/es/uv/andoni/shared/domain/User.java
 /home/andoni/Universidad/Trabajo/DATA_SHARED/src/main/java/es/uv/andoni/shared/domain/ProducerDTO.java
 /home/andoni/Universidad/Trabajo/DATA_SHARED/src/main/java/es/uv/andoni/shared/domain/NewProducerDTO.java
-/home/andoni/Universidad/Trabajo/DATA_SHARED/src/main/java/es/uv/andoni/shared/domain/ValidatorDTO.java
 /home/andoni/Universidad/Trabajo/DATA_SHARED/src/main/java/es/uv/andoni/shared/domain/AuthenticationRequest.java
 /home/andoni/Universidad/Trabajo/DATA_SHARED/src/main/java/es/uv/andoni/shared/domain/FileDTO.java
 /home/andoni/Universidad/Trabajo/DATA_SHARED/src/main/java/es/uv/andoni/shared/domain/NewValidatorDTO.java

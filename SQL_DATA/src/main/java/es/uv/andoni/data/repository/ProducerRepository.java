@@ -13,4 +13,15 @@ public interface ProducerRepository extends JpaRepository<Producer, Long> {
 
   @Query("SELECT DISTINCT f.producer FROM File f WHERE f.state = 'ERROR'")
   List<Producer> findProducersWithErrors();
+
+  //////////////////////////////////////////////////////////////////////////////
+  //Persistencia Relacional y no Relacional//
+  //////////////////////////////////////////////////////////////////////////////
+  @Query("SELECT p.state, COUNT(p) FROM Producer p GROUP BY p.state")
+  List<Object[]> countProducersByState();
+
+  @Query(
+    "SELECT p FROM Producer p JOIN File f ON p.id = f.producer.id GROUP BY p HAVING COUNT(f) > 5"
+  )
+  List<Producer> findProducersWithMoreThan5Files();
 }

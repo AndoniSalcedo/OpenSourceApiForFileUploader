@@ -25,6 +25,8 @@ public class FileDTO implements Serializable {
   private Integer numDownloads;
 
   private ProducerDTO producer;
+
+  private UserDTO validator;
   // USER VALUES
   private String title;
 
@@ -54,6 +56,7 @@ public class FileDTO implements Serializable {
     Integer numViews,
     Integer numDownloads,
     ProducerDTO producer,
+    UserDTO validator,
     String title,
     String description,
     List<String> keyWords,
@@ -68,6 +71,7 @@ public class FileDTO implements Serializable {
     this.title = title;
     this.description = description;
     this.keyWords = keyWords;
+    this.validator = validator;
     this.size = size;
   }
 
@@ -149,6 +153,18 @@ public class FileDTO implements Serializable {
 
   public void setProducer(ProducerDTO producer) {
     this.producer = producer;
+  }
+
+  public void setState(String state) {
+    this.state = state;
+  }
+
+  public UserDTO getValidator() {
+    return validator;
+  }
+
+  public void setValidator(UserDTO validator) {
+    this.validator = validator;
   }
 
   @Override

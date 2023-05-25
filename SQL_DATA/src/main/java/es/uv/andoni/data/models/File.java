@@ -45,6 +45,10 @@ public class File {
   @JoinColumn(name = "productor_id")
   private Producer producer;
 
+  @ManyToOne
+  @JoinColumn(name = "validator_id")
+  private Validator validator;
+
   public File() {}
 
   public File(FileDTO fileDTO) {
@@ -58,6 +62,7 @@ public class File {
     this.numViews = fileDTO.getNumViews();
     this.numDownloads = fileDTO.getNumDownloads();
     this.producer = new Producer(fileDTO.getProducer());
+    this.validator = new Validator(fileDTO.getValidator());
   }
 
   public FileDTO toDTO() {
@@ -68,6 +73,7 @@ public class File {
       this.numViews,
       this.numDownloads,
       this.producer.toDTO(),
+      this.validator.toDTO(),
       this.title,
       this.description,
       this.keyWords,
@@ -153,5 +159,13 @@ public class File {
 
   public void setProducer(Producer producer) {
     this.producer = producer;
+  }
+
+  public Validator getValidator() {
+    return validator;
+  }
+
+  public void setValidator(Validator validator) {
+    this.validator = validator;
   }
 }

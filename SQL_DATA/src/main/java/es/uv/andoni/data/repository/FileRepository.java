@@ -1,8 +1,11 @@
 package es.uv.andoni.data.repository;
 
 import es.uv.andoni.data.models.File;
+import es.uv.andoni.data.models.Producer;
+import es.uv.andoni.data.models.Validator;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -34,4 +37,14 @@ public interface FileRepository extends JpaRepository<File, Long> {
     "UPDATE File f SET f.numDownloads = f.numDownloads + 1 WHERE f.id = :id"
   )
   void incrementNumDownloads(@Param("id") Long id);
+
+  //////////////////////////////////////////////////////////////////////////////
+  //Persistencia Relacional y no Relacional//
+  //////////////////////////////////////////////////////////////////////////////
+  @Query(
+    "SELECT f FROM File f JOIN FETCH f.producer ORDER BY f.numViews + f.numDownloads DESC"
+  )
+  List<File> findTop10ByOrderByNumViewsDescNumDownloadsDesc(Pageable pageable);
+
+  List<File> findByValidatorAndProducer(Validator validator, Producer producer);
 }

@@ -30,7 +30,8 @@ CREATE TABLE `files` (
     `numViews` INT,
     `numDownloads` INT,
     `producer_id` BIGINT,
-    FOREIGN KEY (`producer_id`) REFERENCES `producers`(`id`)
+    FOREIGN KEY (`producer_id`) REFERENCES `producers`(`id`),
+    FOREIGN KEY (`validator_id`) REFERENCES `validators`(`id`)
 );
 
 CREATE TABLE `files_keyWords` (

@@ -74,37 +74,41 @@ public class AuthorizationController {
   public Mono<ResponseEntity<?>> login(
     @RequestBody AuthenticationRequest auth
   ) {
-    return us
-      .findByEmailMono(auth.getEmail())
-      .map(user -> {
-        //TODO: hash pass in db
-        /* if (pe.matches(auth.getPassword(), user.getPassword())) { */
-        if (auth.getPassword().compareTo(user.getPassword()) == 0) {
-          Map<String, String> tokens = new HashMap<>();
-          String accessToken =
-            this.tp.generateAccessToken(
-                user.getId().toString(),
-                Arrays.asList(user.getRole())
-              );
-          String refreshToken =
-            this.tp.generateRefreshToken(
-                user.getId().toString(),
-                Arrays.asList(user.getRole())
-              );
-          tokens.put("access_token", accessToken);
-          tokens.put("refresh_token", refreshToken);
-          HttpHeaders headers = new HttpHeaders();
-          headers.add(
-            HttpHeaders.CONTENT_TYPE,
-            MediaType.APPLICATION_JSON_VALUE
-          );
-          headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
-          return ResponseEntity.ok().headers(headers).body(tokens);
-        } else {
-          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-      })
-      .defaultIfEmpty(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+    try {
+      return us
+        .findByEmailMono(auth.getEmail())
+        .map(user -> {
+          //TODO: hash pass in db
+          /* if (pe.matches(auth.getPassword(), user.getPassword())) { */
+          if (auth.getPassword().compareTo(user.getPassword()) == 0) {
+            Map<String, String> tokens = new HashMap<>();
+            String accessToken =
+              this.tp.generateAccessToken(
+                  user.getId().toString(),
+                  Arrays.asList(user.getRole())
+                );
+            String refreshToken =
+              this.tp.generateRefreshToken(
+                  user.getId().toString(),
+                  Arrays.asList(user.getRole())
+                );
+            tokens.put("access_token", accessToken);
+            tokens.put("refresh_token", refreshToken);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(
+              HttpHeaders.CONTENT_TYPE,
+              MediaType.APPLICATION_JSON_VALUE
+            );
+            headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+            return ResponseEntity.ok().headers(headers).body(tokens);
+          } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+          }
+        })
+        .defaultIfEmpty(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+    } catch (Exception e) {
+      return Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+    }
   }
 
   @PostMapping("refresh")

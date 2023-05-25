@@ -2,6 +2,7 @@ package es.uv.andoni.validator.controllers;
 
 import es.uv.andoni.shared.domain.FileDTO;
 import es.uv.andoni.shared.domain.ProducerDTO;
+import es.uv.andoni.shared.domain.UserDTO;
 import es.uv.andoni.validator.services.ValidatorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -9,6 +10,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -124,13 +126,21 @@ public class ValidatorController {
     description = "Preparación y publicación de un fichero. Se indicará el identificador del fichero y se cambiará su estado a “en preparación”. Se enviará un mensaje a una cola en RabbitMQ para que se realice una tarea de procesamiento previa a la publicación. El  mensaje será atendido por un servicio de procesado (balanceado entre 4 instancias)  que implementará una espera en función del tamaño del fichero con el objetivo de emular la ejecución de un conjunto de acciones de larga duración. Tras este procesamiento se cambiará el estado a publicado. Si el productor especificó la palabra clave “error”, simularemos que se ha producido un error en la tarea de  procesamiento y el estado cambiará a erróneo. Requerirá autenticació."
   )
   @PostMapping("/process/{fileId}")
-  public ResponseEntity<?> prepareAndPublishFile(@PathVariable Long fileId) {
+  public ResponseEntity<?> prepareAndPublishFile(
+    @PathVariable Long fileId,
+    @RequestHeader("x-auth-user-id") Long userId
+  ) {
+    if (userId == null) {
+      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
     log.info("Processing file id " + fileId);
     FileDTO file = validatorService.getFile(fileId).getBody();
 
     if (file == null) {
       return ResponseEntity.notFound().build();
     }
+
+    file.setValidator(new UserDTO(userId));
 
     log.info(file.toString());
 
