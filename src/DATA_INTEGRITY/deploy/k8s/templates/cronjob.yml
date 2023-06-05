@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {ARTIFACT}-cronjob
+  labels:
+    app: {ARTIFACT}
+spec:
+  schedule: "0 */12 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: {ARTIFACT}
+            image: andonisalcedo/{ARTIFACT}:{VERSION}
+            envFrom:
+            - configMapRef:
+                name: config-server-url
+            ports:
+              - containerPort: 8080
+          restartPolicy: Never
